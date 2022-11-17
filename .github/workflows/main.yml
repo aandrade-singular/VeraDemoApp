@@ -1,4 +1,4 @@
-name: Pipeline-scan
+name: pipeline-scan
 
 on: push
 
@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: build
-        run: maven clean verify
+        run: gradle clean build
   pipeline-scan:
     runs-on: ubuntu-latest
     steps:
