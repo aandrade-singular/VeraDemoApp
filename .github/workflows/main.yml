@@ -19,7 +19,16 @@ jobs:
         uses: wei/curl@master
         with:
           args: -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+       
+# Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it and copies all sources into ZIP file for submitting for analysis. Replace this section with your applications build steps
+      - uses: actions/checkout@v3
+        with:
+          repository: ''
+
+      - run: zip -r veracode-scan-target.zip ./
+    
       - name: Unzip the Pipeline Scanner
         run: unzip pipeline-scan-LATEST.zip
+        
       - name: Run Pipeline Scanner
-        run: java -Dpipeline.debug=true -jar pipeline-scan.jar --veracode_api_id "${{secrets.VERACODE_API_ID}}" --veracode_api_key "${{secrets.VERACODE_API_KEY}}" --file "example.jar" --fail_on_severity="Very High, High"
+        run: java -jar pipeline-scan.jar --veracode_api_id "${{secrets.VERACODE_API_ID}}" --veracode_api_key "${{secrets.VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file veracode-scan-target.zip
