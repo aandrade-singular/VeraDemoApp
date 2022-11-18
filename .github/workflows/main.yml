@@ -1,13 +1,19 @@
 name: pipeline-scan
 
-on: push
+on:
+
+  push:
+      branches: [ "main" ]
+  pull_request:
+      # The branches below must be a subset of the branches above
+      branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: build
-        run: mvn clean verify
+        run: maven clean verify
   pipeline-scan:
     runs-on: ubuntu-latest
     steps:
