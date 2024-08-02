@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Veracode SCA
         env:
-          SRCCLR_API_TOKEN: ${{ secrets.SCA }} # Lembrar de criar as credenciais no Secrets
+          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }} # Lembrar de criar as credenciais no Secrets
         run: |
           curl -sSL 'https://download.sourceclear.com/ci.sh' | bash -s – scan --update-advisor --allow-dirty
 
@@ -39,8 +39,8 @@ jobs:
       - name: UploadAndScan
         uses: veracode/veracode-uploadandscan-action@master # Faz a analise da Veracode
         env:
-          VeracodeID: ${{ secrets.VeracodeID }} # Lembrar de criar as credenciais no Secrets
-          VeracodeKey: ${{ secrets.VeracodeKey }}
+          VeracodeID: ${{secrets.VERACODE_API_ID}} # Lembrar de criar as credenciais no Secrets
+          VeracodeKey: ${{secrets.VERACODE_API_KEY}}
           AppName: Github Actions - ${{ github.repository }}
         with:
           vid: '$VeracodeID'
