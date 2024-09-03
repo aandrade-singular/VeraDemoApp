@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Veracode SCA
         env:
-          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }} # Lembrar de criar as credenciais no Secrets
+          SRCCLR_API_TOKEN: ${{secrets.SRCCLR_API_TOKEN }} # Lembrar de criar as credenciais no Secrets
         run: |
           curl -sSL 'https://download.sourceclear.com/ci.sh' | bash -s – scan --update-advisor --allow-dirty
 
@@ -43,14 +43,14 @@ jobs:
           VeracodeKey: ${{secrets.VERACODE_API_KEY}}
           AppName: Github Actions - ${{ github.repository }}
         with:
-          vid: '$VeracodeID'
-          vkey: '$VeracodeKey'
+          vid: ${{secrets.VERACODE_API_ID}}
+          vkey: ${{secrets.VERACODE_API_KEY}}
           criticality: 'VeryHigh'
-          appname: '$AppName'
+          appname: Github Actions - ${{ github.repository }}
           createsandbox: true
           filepath: 'veracode.zip'
           deleteIncompleteScan: false
-          version: ${{ github.run_id }}
+          version: 120
 
   Veracode_PipelineScan:
     runs-on: ubuntu-latest
@@ -62,8 +62,8 @@ jobs:
           name: pacoteVeracode
       - name: Veracode Pipeline Scan
         env:
-          VID: ${{ secrets.VeracodeID }} # Lembrar de criar as credenciais no Secrets
-          VKEY: ${{ secrets.VeracodeKey }}
+          VID: ${{secrets.VeracodeID }} # Lembrar de criar as credenciais no Secrets
+          VKEY: ${{secrets.VeracodeKey }}
           CaminhoArquivo: './veracode.zip'
         run: |
           curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
